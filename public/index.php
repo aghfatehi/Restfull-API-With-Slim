@@ -45,4 +45,52 @@ $inputdata['phone']=filter_var($data['phone'],FILTER_SANITIZE_STRING);
 $r2->getBody()->write("dear: " .$inputdata['name']." your phone number is: " .$inputdata['phone']);
 
 });
+
+// another user of API
+$app->get('/testargs/{name}/{phone}', function ($request, $response, $args) {
+    $name = $args['name'];
+    $phone = $args['phone'];
+    $response->getBody()->write("This is a test for args: $name and the phone number is: $phone");
+
+    return $response;
+});
+
+// Json Response TEST
+$app->get('/jsontest/{FirstName}/{LastNAme}',function($request,$response,$args)
+{
+
+$FirstName=$args['FirstName'];
+$LastNAme=$args['LastNAme'];
+$out=[];
+$out['Status']=200;
+$out['Message']="Thid is JSON Response Test";
+$out['FirstName']=$FirstName;
+$out['LastNAme']=$LastNAme;
+$response->getBody()->write(json_encode($out));
+
+});
+
+// Put Resource
+$app->put('/testput',function($request,$response)
+{
+
+$data=$request->getParsedBody();
+$username=$data['UserName'];
+$password=$data['Password'];
+$response->getBody()->write("$username your password is $password");
+
+});
+
+// delete Resource
+$app->delete('/testdelete',function($request,$response)
+{
+
+$data=$request->getParsedBody();
+$username=$data['UserName'];
+$password=$data['Password'];
+$response->getBody()->write("$username your password is $password With 
+	Delete Test Demo");
+
+});
+
 $app->run();
